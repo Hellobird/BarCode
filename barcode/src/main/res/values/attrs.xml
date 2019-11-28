@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--BarCodeView-->
+    <declare-styleable name="BarCodeView">
+        <!--扫描框大小比率-->
+        <attr name="scanFrameRatio" format="float"></attr>
+        <!--扫描范围是否和扫描框保持一致，为true时只会扫描框内图像，为false时扫描全屏图像-->
+        <attr name="syncScanFrame" format="boolean"></attr>
+    </declare-styleable>
+</resources>

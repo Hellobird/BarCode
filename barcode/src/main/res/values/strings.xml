@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">BarCode</string>
+    <string name="default_title">二维码/条码</string>
+</resources>

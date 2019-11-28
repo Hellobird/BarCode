@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <io.hellobird.barcode.BarCodeView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/preview_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:scanFrameRatio="0.8"
+        app:syncScanFrame="false" />
+
+    <io.hellobird.barcode.DecorationView
+        android:id="@+id/decoration_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/barcode_title_height"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/imgBtn_back"
+            android:layout_width="@dimen/barcode_title_height"
+            android:layout_height="@dimen/barcode_title_height"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_back" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/default_title"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textColor="@android:color/white" />
+
+        <ImageButton
+            android:id="@+id/imgBtn_flash"
+            android:layout_width="@dimen/barcode_title_height"
+            android:layout_height="@dimen/barcode_title_height"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_flash_off" />
+    </LinearLayout>
+</FrameLayout>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="barcode_default_mask">#80000000</color>
+    <color name="barcode_default_corner">#ffffff</color>
+    <color name="barcode_default_scan_line">#E91E63</color>
+</resources>
