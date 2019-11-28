@@ -34,7 +34,7 @@
 
 **java 代码中**
 
-```
+```java
   mPreviewView = findViewById(R.id.preview_view);
   mPreviewView.setOnCaptureListener(this);
 
