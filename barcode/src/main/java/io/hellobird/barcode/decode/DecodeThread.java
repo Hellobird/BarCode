@@ -51,6 +51,7 @@ public class DecodeThread extends Thread {
     private final Map<DecodeHintType, Object> hints;
     private Handler handler;
     private final CountDownLatch handlerInitLatch;
+    private boolean callbackBitmap;
 
     public DecodeThread(
             Context context,
@@ -59,10 +60,12 @@ public class DecodeThread extends Thread {
             Collection<BarcodeFormat> decodeFormats,
             Map<DecodeHintType, ?> baseHints,
             String characterSet,
-            ResultPointCallback resultPointCallback) {
+            ResultPointCallback resultPointCallback,
+            boolean callbackBitmap) {
 
         this.cameraManager = cameraManager;
         this.mainHandler = mainHandler;
+        this.callbackBitmap = callbackBitmap;
         handlerInitLatch = new CountDownLatch(1);
 
         hints = new EnumMap<>(DecodeHintType.class);
@@ -113,7 +116,7 @@ public class DecodeThread extends Thread {
     @Override
     public void run() {
         Looper.prepare();
-        handler = new DecodeHandler(mainHandler, cameraManager, hints);
+        handler = new DecodeHandler(mainHandler, cameraManager, hints, callbackBitmap);
         handlerInitLatch.countDown();
         Looper.loop();
         Log.d("DecodeThread", "DecodeThread quit");

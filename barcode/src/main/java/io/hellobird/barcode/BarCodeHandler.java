@@ -50,10 +50,10 @@ class BarCodeHandler extends Handler {
      * @param decodeFormats 解析类型
      * @param callback      回调
      */
-    BarCodeHandler(Context context, CameraManager cameraManager, Collection<BarcodeFormat> decodeFormats, Callback callback) {
+    BarCodeHandler(Context context, CameraManager cameraManager, Collection<BarcodeFormat> decodeFormats, Callback callback, boolean callBackBitmap) {
         mCameraManager = cameraManager;
         mCallback = callback;
-        mDecodeThread = new DecodeThread(context, cameraManager, this, decodeFormats, null, null, null);
+        mDecodeThread = new DecodeThread(context, cameraManager, this, decodeFormats, null, null, null, callBackBitmap);
         mDecodeThread.start();
     }
 

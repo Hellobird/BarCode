@@ -25,6 +25,8 @@
             <flag name="UPC_A" value="0x4000" />
             <flag name="UPC_EAN_EXTENSION" value="0x8000" />
         </attr>
+        <!--回传结果时是否生成bitmap-->
+        <attr name="bitmap" format="boolean"/>
     </declare-styleable>
 
     <!--DecorationView-->

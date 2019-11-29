@@ -69,6 +69,11 @@ public class BarCodeView extends SurfaceView implements BarCodeHandler.Callback 
      */
     private List<BarcodeFormat> mModeList;
 
+    /**
+     * 是否回传bitmap，回调结果时是否生成解析的bitmap
+     */
+    private boolean mCallBackBitmap;
+
 
     public BarCodeView(Context context) {
         this(context, null);
@@ -102,6 +107,7 @@ public class BarCodeView extends SurfaceView implements BarCodeHandler.Callback 
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.BarCodeView);
         mScanFrameRatio = typedArray.getFloat(R.styleable.BarCodeView_scanFrameRatio, mScanFrameRatio);
         mSyncScanFrame = typedArray.getBoolean(R.styleable.BarCodeView_syncScanFrame, mSyncScanFrame);
+        mCallBackBitmap = typedArray.getBoolean(R.styleable.BarCodeView_bitmap, mCallBackBitmap);
         int mode = typedArray.getInt(R.styleable.BarCodeView_mode, 0);
         // 解析模式
         mModeList = new ArrayList<>();
@@ -156,7 +162,7 @@ public class BarCodeView extends SurfaceView implements BarCodeHandler.Callback 
         if (mSurfaceEnable) {
             try {
                 mCameraManager.openDriver(getHolder());
-                mHandler = new BarCodeHandler(getContext(), mCameraManager, mModeList, this);
+                mHandler = new BarCodeHandler(getContext(), mCameraManager, mModeList, this, mCallBackBitmap);
                 // 开始预览与解析
                 mHandler.restartPreviewAndDecode();
             } catch (IOException e) {

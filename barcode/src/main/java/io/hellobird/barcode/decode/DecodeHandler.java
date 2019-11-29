@@ -59,12 +59,17 @@ public final class DecodeHandler extends Handler {
     private CameraManager cameraManager;
     private final MultiFormatReader multiFormatReader;
     private boolean running = true;
+    /**
+     * 是否回传bitmap
+     */
+    private boolean callBackBitmap;
 
-    DecodeHandler(Handler mainHandler, CameraManager cameraManager, Map<DecodeHintType, Object> hints) {
+    DecodeHandler(Handler mainHandler, CameraManager cameraManager, Map<DecodeHintType, Object> hints, boolean callBackBitmap) {
         multiFormatReader = new MultiFormatReader();
         multiFormatReader.setHints(hints);
         this.mainHandler = mainHandler;
         this.cameraManager = cameraManager;
+        this.callBackBitmap = callBackBitmap;
     }
 
     @Override
@@ -113,9 +118,11 @@ public final class DecodeHandler extends Handler {
             Log.d(TAG, "Found barcode in " + TimeUnit.NANOSECONDS.toMillis(end - start) + " ms");
             if (mainHandler != null) {
                 Message message = Message.obtain(mainHandler, Msg.decode_succeeded, rawResult);
-                Bundle bundle = new Bundle();
-                bundleThumbnail(source, bundle);
-                message.setData(bundle);
+                if (callBackBitmap) {
+                    Bundle bundle = new Bundle();
+                    bundleThumbnail(source, bundle);
+                    message.setData(bundle);
+                }
                 message.sendToTarget();
             }
         } else {
