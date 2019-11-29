@@ -7,9 +7,14 @@ import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import androidx.annotation.Nullable;
+
+import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import io.hellobird.barcode.camera.CameraManager;
 
@@ -24,6 +29,11 @@ import io.hellobird.barcode.camera.CameraManager;
  *
  ******************************************************************/
 public class BarCodeView extends SurfaceView implements BarCodeHandler.Callback {
+
+    /**
+     * 默认的扫描框比例
+     */
+    private static final float DEFAULT_RATIO = 0.8f;
 
     /**
      * 相机管理类
@@ -54,6 +64,11 @@ public class BarCodeView extends SurfaceView implements BarCodeHandler.Callback 
      */
     private boolean mSyncScanFrame;
 
+    /**
+     * 解析模式
+     */
+    private List<BarcodeFormat> mModeList;
+
 
     public BarCodeView(Context context) {
         this(context, null);
@@ -69,6 +84,8 @@ public class BarCodeView extends SurfaceView implements BarCodeHandler.Callback 
 
     public BarCodeView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+        mScanFrameRatio = DEFAULT_RATIO;
+        mSyncScanFrame = true;
         initAttrs(attrs);
         getHolder().addCallback(mCallBack);
     }
@@ -76,12 +93,36 @@ public class BarCodeView extends SurfaceView implements BarCodeHandler.Callback 
     /**
      * 初始化View属性
      *
-     * @param attrs
+     * @param attrs 属性
      */
-    private void initAttrs(AttributeSet attrs) {
+    private void initAttrs(@Nullable AttributeSet attrs) {
+        if (attrs == null) {
+            return;
+        }
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.BarCodeView);
-        mScanFrameRatio = typedArray.getFloat(R.styleable.BarCodeView_scanFrameRatio, 0.8f);
-        mSyncScanFrame = typedArray.getBoolean(R.styleable.BarCodeView_syncScanFrame, true);
+        mScanFrameRatio = typedArray.getFloat(R.styleable.BarCodeView_scanFrameRatio, mScanFrameRatio);
+        mSyncScanFrame = typedArray.getBoolean(R.styleable.BarCodeView_syncScanFrame, mSyncScanFrame);
+        int mode = typedArray.getInt(R.styleable.BarCodeView_mode, 0);
+        // 解析模式
+        mModeList = new ArrayList<>();
+        if ((mode & Mode.AZTEC) > 0) mModeList.add(BarcodeFormat.AZTEC);
+        if ((mode & Mode.CODABAR) > 0) mModeList.add(BarcodeFormat.CODABAR);
+        if ((mode & Mode.CODE_39) > 0) mModeList.add(BarcodeFormat.CODE_39);
+        if ((mode & Mode.CODE_93) > 0) mModeList.add(BarcodeFormat.CODE_93);
+        if ((mode & Mode.CODE_128) > 0) mModeList.add(BarcodeFormat.CODE_128);
+        if ((mode & Mode.DATA_MATRIX) > 0) mModeList.add(BarcodeFormat.DATA_MATRIX);
+        if ((mode & Mode.EAN_8) > 0) mModeList.add(BarcodeFormat.EAN_8);
+        if ((mode & Mode.EAN_13) > 0) mModeList.add(BarcodeFormat.EAN_13);
+        if ((mode & Mode.ITF) > 0) mModeList.add(BarcodeFormat.ITF);
+        if ((mode & Mode.MAXI_CODE) > 0) mModeList.add(BarcodeFormat.MAXICODE);
+        if ((mode & Mode.PDF_417) > 0) mModeList.add(BarcodeFormat.PDF_417);
+        if ((mode & Mode.QR_CODE) > 0) mModeList.add(BarcodeFormat.QR_CODE);
+        if ((mode & Mode.RSS_14) > 0) mModeList.add(BarcodeFormat.RSS_14);
+        if ((mode & Mode.RSS_EXPANDED) > 0) mModeList.add(BarcodeFormat.RSS_EXPANDED);
+        if ((mode & Mode.UPC_A) > 0) mModeList.add(BarcodeFormat.UPC_A);
+        if ((mode & Mode.UPC_EAN_EXTENSION) > 0) mModeList.add(BarcodeFormat.UPC_EAN_EXTENSION);
+
+        typedArray.recycle();
     }
 
     /**
@@ -115,7 +156,7 @@ public class BarCodeView extends SurfaceView implements BarCodeHandler.Callback 
         if (mSurfaceEnable) {
             try {
                 mCameraManager.openDriver(getHolder());
-                mHandler = new BarCodeHandler(getContext(), mCameraManager, null, this);
+                mHandler = new BarCodeHandler(getContext(), mCameraManager, mModeList, this);
                 // 开始预览与解析
                 mHandler.restartPreviewAndDecode();
             } catch (IOException e) {
@@ -189,5 +230,24 @@ public class BarCodeView extends SurfaceView implements BarCodeHandler.Callback 
          * @param result 返回结果
          */
         void onCapture(String result, Bitmap barcode);
+    }
+
+    public interface Mode {
+        int AZTEC = 0x1;
+        int CODABAR = 0x2;
+        int CODE_39 = 0x4;
+        int CODE_93 = 0x8;
+        int CODE_128 = 0x10;
+        int DATA_MATRIX = 0x20;
+        int EAN_8 = 0x40;
+        int EAN_13 = 0x80;
+        int ITF = 0x100;
+        int MAXI_CODE = 0x200;
+        int PDF_417 = 0x400;
+        int QR_CODE = 0x800;
+        int RSS_14 = 0x1000;
+        int RSS_EXPANDED = 0x2000;
+        int UPC_A = 0x4000;
+        int UPC_EAN_EXTENSION = 0x8000;
     }
 }

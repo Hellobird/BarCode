@@ -3,8 +3,41 @@
     <!--BarCodeView-->
     <declare-styleable name="BarCodeView">
         <!--扫描框大小比率-->
-        <attr name="scanFrameRatio" format="float"></attr>
+        <attr name="scanFrameRatio" format="float" />
         <!--扫描范围是否和扫描框保持一致，为true时只会扫描框内图像，为false时扫描全屏图像-->
-        <attr name="syncScanFrame" format="boolean"></attr>
+        <attr name="syncScanFrame" format="boolean" />
+        <!--解析模式-->
+        <attr name="mode">
+            <flag name="AZTEC" value="0x1" />
+            <flag name="CODABAR" value="0x2" />
+            <flag name="CODE_39" value="0x4" />
+            <flag name="CODE_93" value="0x8" />
+            <flag name="CODE_128" value="0x10" />
+            <flag name="DATA_MATRIX" value="0x20" />
+            <flag name="EAN_8" value="0x40" />
+            <flag name="EAN_13" value="0x80" />
+            <flag name="ITF" value="0x100" />
+            <flag name="MAXI_CODE" value="0x200" />
+            <flag name="PDF_417" value="0x400" />
+            <flag name="QR_CODE" value="0x800" />
+            <flag name="RSS_14" value="0x1000" />
+            <flag name="RSS_EXPANDED" value="0x2000" />
+            <flag name="UPC_A" value="0x4000" />
+            <flag name="UPC_EAN_EXTENSION" value="0x8000" />
+        </attr>
+    </declare-styleable>
+
+    <!--DecorationView-->
+    <declare-styleable name="DecorationView">
+        <!--遮罩层颜色-->
+        <attr name="maskColor" format="color|reference" />
+        <!--拐角颜色-->
+        <attr name="cornerColor" format="color|reference" />
+        <!--拐角粗细-->
+        <attr name="cornerStrokeWidth" format="dimension" />
+        <!--扫描线颜色-->
+        <attr name="scanLineColor" format="color|reference" />
+        <!--扫描线粗细-->
+        <attr name="scanLineStrokeWidth" format="dimension" />
     </declare-styleable>
 </resources>

@@ -3,6 +3,7 @@ package io.hellobird.barcode;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -101,6 +102,7 @@ public class DecorationView extends View {
     public DecorationView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         initPaint();
+        initAttrs(attrs);
     }
 
     /**
@@ -114,6 +116,24 @@ public class DecorationView extends View {
         mCornerStrokeWidth = dip2px(getResources(), CORNER_STROKE_WIDTH);
         mScanLineColor = getResources().getColor(R.color.barcode_default_scan_line);
         mScanLineWidth = dip2px(getResources(), SCAN_LINE_WIDTH);
+    }
+
+    /**
+     * 初始化布局属性
+     *
+     * @param attrs
+     */
+    private void initAttrs(@Nullable AttributeSet attrs) {
+        if (attrs == null) {
+            return;
+        }
+        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.DecorationView);
+        mMaskColor = typedArray.getColor(R.styleable.DecorationView_maskColor, mMaskColor);
+        mCornerColor = typedArray.getColor(R.styleable.DecorationView_cornerColor, mCornerColor);
+        mCornerStrokeWidth = typedArray.getDimensionPixelSize(R.styleable.DecorationView_cornerStrokeWidth, mCornerStrokeWidth);
+        mScanLineColor = typedArray.getColor(R.styleable.DecorationView_scanLineColor, mScanLineColor);
+        mScanLineWidth = typedArray.getDimensionPixelSize(R.styleable.DecorationView_scanLineStrokeWidth, mScanLineWidth);
+        typedArray.recycle();
     }
 
     /**
