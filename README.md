@@ -8,7 +8,8 @@
 
 ### 使用定义好的 CaptureActivity
 
-直接使用 `startActivityForResult` 方法启动 `CaptureActivity`，通过 `onActivityResult` 获取扫描结果
+**申请相机权限后**，直接使用 `startActivityForResult` 方法启动
+`CaptureActivity`，通过 `onActivityResult` 获取扫描结果
 
 
 ### 通过布局引入
