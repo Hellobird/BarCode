@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">BarCode</string>
     <string name="default_title">二维码/条码</string>
+    <string name="camera_permission_hint">请先允许应用访问相机</string>
 </resources>

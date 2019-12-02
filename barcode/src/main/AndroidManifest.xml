@@ -1,8 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="io.hellobird.barcode">
 
+    <!--读取选择的图片文件-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!--相机权限-->
     <uses-permission android:name="android.permission.CAMERA" />
+    <!--闪光灯-->
     <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <!--震动-->
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <uses-feature

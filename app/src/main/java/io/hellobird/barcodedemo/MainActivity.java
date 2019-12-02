@@ -41,9 +41,14 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_PHOTO = 2;
 
     /**
-     * 请求权限
+     * 请求相册权限
      */
     public static final int REQUEST_READ_PERMISSION = 1234;
+
+    /**
+     * 请求相机权限
+     */
+    public static final int REQUEST_CAMERA_PERMISSION = 1235;
 
     /**
      * 二维码解析
@@ -58,8 +63,10 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btn_barcode).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
-                startActivityForResult(intent, REQUEST_SCAN);
+                if (checkCameraPermission()) {
+                    Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
+                    startActivityForResult(intent, REQUEST_SCAN);
+                }
             }
         });
 
@@ -96,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 检查读权限
      *
-     * @return 读权限
+     * @return 是否权限
      */
     private boolean checkReadPermission() {
         int readPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
@@ -105,6 +112,21 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_READ_PERMISSION);
+        return false;
+    }
+
+    /**
+     * 检查相机权限
+     *
+     * @return 是否有权限
+     */
+    private boolean checkCameraPermission() {
+        int readPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
+        // 如果有权限
+        if (readPermission == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        }
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
         return false;
     }
 
@@ -121,6 +143,13 @@ public class MainActivity extends AppCompatActivity {
                 accessStorage();
             } else {
                 Toast.makeText(this, "请先同意访问相册权限", Toast.LENGTH_SHORT).show();
+            }
+        } else if (requestCode == REQUEST_CAMERA_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
+                startActivityForResult(intent, REQUEST_SCAN);
+            } else {
+                Toast.makeText(this, getString(R.string.camera_permission_hint), Toast.LENGTH_SHORT).show();
             }
         }
     }
