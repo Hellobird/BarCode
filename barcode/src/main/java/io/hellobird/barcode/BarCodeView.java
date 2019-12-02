@@ -84,11 +84,7 @@ public class BarCodeView extends SurfaceView implements BarCodeHandler.Callback 
     }
 
     public BarCodeView(Context context, AttributeSet attrs, int defStyleAttr) {
-        this(context, attrs, defStyleAttr, 0);
-    }
-
-    public BarCodeView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
+        super(context, attrs, defStyleAttr);
         mScanFrameRatio = DEFAULT_RATIO;
         mSyncScanFrame = true;
         initAttrs(attrs);

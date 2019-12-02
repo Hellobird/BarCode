@@ -96,11 +96,7 @@ public class DecorationView extends View {
     }
 
     public DecorationView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        this(context, attrs, defStyleAttr, 0);
-    }
-
-    public DecorationView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
+        super(context, attrs, defStyleAttr);
         initPaint();
         initAttrs(attrs);
     }
