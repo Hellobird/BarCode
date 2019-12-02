@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
-                startActivityForResult(intent, 0);
+                startActivityForResult(intent, REQUEST_SCAN);
             }
         });
 
