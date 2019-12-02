@@ -1,6 +1,10 @@
 package io.hellobird.barcode.decode;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Paint;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -85,7 +89,7 @@ public class Decoder {
     /**
      * 解析bitmap中的码
      *
-     * @param bitmap bitmap
+     * @param bitmap          bitmap
      * @return 解析结果
      */
     public Result decodeBitmap(Bitmap bitmap) {
@@ -133,4 +137,30 @@ public class Decoder {
         return null;
     }
 
+
+    /**
+     * 创建高对比度图片
+     *
+     * @param bitmap
+     * @return
+     */
+    public Bitmap createContrastBitmap(@NonNull Bitmap bitmap) {
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        Bitmap result = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+        ColorMatrix cMatrix = new ColorMatrix();
+        cMatrix.set(new float[]{
+                2, 0, 0, 0, -254,
+                0, 2, 0, 0, -254,
+                0, 0, 2, 0, -254,
+                0, 0, 0, 1, 0
+        });
+
+        Paint paint = new Paint();
+        paint.setColorFilter(new ColorMatrixColorFilter(cMatrix));
+
+        Canvas canvas = new Canvas(result);
+        canvas.drawBitmap(bitmap, 0, 0, paint);
+        return result;
+    }
 }
