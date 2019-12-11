@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">BarCode</string>
-    <string name="default_title">二维码/条码</string>
+    <string name="default_title">二维码</string>
     <string name="camera_permission_hint">请先允许应用访问相机</string>
+    <string name="parse_failed_from_photo">解析图片失败</string>
+    <string name="select_image_permission_hint">请先同意访问相册权限</string>
 </resources>

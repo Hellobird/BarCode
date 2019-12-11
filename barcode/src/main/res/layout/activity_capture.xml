@@ -9,7 +9,7 @@
         android:id="@+id/preview_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:mode="QR_CODE|CODE_128"
+        app:mode="QR_CODE"
         app:scanFrameRatio="0.8"
         app:syncScanFrame="false" />
 
@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/barcode_title_height"
         android:gravity="center"
@@ -28,26 +28,37 @@
             android:id="@+id/imgBtn_back"
             android:layout_width="@dimen/barcode_title_height"
             android:layout_height="@dimen/barcode_title_height"
-            android:background="@null"
+            android:layout_alignParentLeft="true"
+            android:background="?attr/actionBarItemBackground"
             android:scaleType="centerInside"
             android:src="@drawable/ic_back" />
 
         <TextView
             android:id="@+id/tv_title"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_centerInParent="true"
             android:gravity="center"
             android:text="@string/default_title"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
             android:textColor="@android:color/white" />
 
         <ImageButton
+            android:id="@+id/imgBtn_photo"
+            android:layout_width="@dimen/barcode_title_height"
+            android:layout_height="@dimen/barcode_title_height"
+            android:layout_alignParentRight="true"
+            android:background="?attr/actionBarItemBackground"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_image" />
+
+        <ImageButton
             android:id="@+id/imgBtn_flash"
             android:layout_width="@dimen/barcode_title_height"
             android:layout_height="@dimen/barcode_title_height"
-            android:background="@null"
+            android:layout_toLeftOf="@id/imgBtn_photo"
+            android:background="?attr/actionBarItemBackground"
             android:scaleType="centerInside"
             android:src="@drawable/ic_flash_off" />
-    </LinearLayout>
+    </RelativeLayout>
 </FrameLayout>
