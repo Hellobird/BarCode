@@ -89,7 +89,7 @@ public class Decoder {
     /**
      * 解析bitmap中的码
      *
-     * @param bitmap          bitmap
+     * @param bitmap bitmap
      * @return 解析结果
      */
     public Result decodeBitmap(Bitmap bitmap) {
@@ -137,6 +137,26 @@ public class Decoder {
         return null;
     }
 
+    private static final ColorMatrix BLACK_WHITE = new ColorMatrix(new float[]{
+            0.33f, 0.59f, 0.11f, 0, -1,
+            0.33f, 0.59f, 0.11f, 0, -1,
+            0.33f, 0.59f, 0.11f, 0, -1,
+            0.33f, 0.59f, 0, 1, 0
+    });
+
+    private static final ColorMatrix DOWN_LIGHT = new ColorMatrix(new float[]{
+            1, 0, 0, 0, -110,
+            0, 1, 0, 0, -110,
+            0, 0, 1, 0, -110,
+            0, 0, 0, 1, 0
+    });
+
+    private static final ColorMatrix UP_CONTRAST = new ColorMatrix(new float[]{
+            6f, 0, 0, 0, -255,
+            0, 6f, 0, 0, -255,
+            0, 0, 6f, 0, -255,
+            0, 0, 0, 1, 0
+    });
 
     /**
      * 创建高对比度图片
@@ -144,17 +164,17 @@ public class Decoder {
      * @param bitmap
      * @return
      */
-    public Bitmap createContrastBitmap(@NonNull Bitmap bitmap) {
+    public static Bitmap createContrastBitmap(@NonNull Bitmap bitmap) {
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
         Bitmap result = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
         ColorMatrix cMatrix = new ColorMatrix();
-        cMatrix.set(new float[]{
-                2, 0, 0, 0, -254,
-                0, 2, 0, 0, -254,
-                0, 0, 2, 0, -254,
-                0, 0, 0, 1, 0
-        });
+        // 先转成黑白
+        cMatrix.postConcat(BLACK_WHITE);
+        // 调低亮度
+        cMatrix.postConcat(DOWN_LIGHT);
+        // 调高对比度
+        cMatrix.postConcat(UP_CONTRAST);
 
         Paint paint = new Paint();
         paint.setColorFilter(new ColorMatrixColorFilter(cMatrix));

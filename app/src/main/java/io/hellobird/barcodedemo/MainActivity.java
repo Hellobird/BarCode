@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
                 Uri result = data.getData();
                 if (result != null) {
                     String path = uri2filePath(result, this);
-                    Bitmap bitmap = ImageResizer.decodeSampledBitmapFromFile(path, 500, 500);
+                    Bitmap bitmap = Decoder.createContrastBitmap(ImageResizer.decodeSampledBitmapFromFile(path, 500, 500));
                     ImageView imgCode = findViewById(R.id.img_code);
                     imgCode.setImageBitmap(bitmap);
                     Result codeResult = mQRDecoder.decodeBitmap(bitmap);
